@@ -45,9 +45,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Boundry.cs" />
      <Compile Include="Assets\Scripts\CameraController.cs" />
      <Compile Include="Assets\Scripts\Mover.cs" />
+     <Compile Include="Assets\Scripts\OnContactAsteroid.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\RandomRotator.cs" />
      <Compile Include="Assets\_SpaceShooterAssets\Done\Done_Scripts\Done_BGScroller.cs" />
      <Compile Include="Assets\_SpaceShooterAssets\Done\Done_Scripts\Done_DestroyByBoundary.cs" />
      <Compile Include="Assets\_SpaceShooterAssets\Done\Done_Scripts\Done_DestroyByContact.cs" />
