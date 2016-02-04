@@ -2,3 +2,6 @@ sceneSetups:
 - path: Assets/Scenes/Main.unity
   isLoaded: 1
   isActive: 1
+- path: Assets/_SpaceShooterAssets/Done/Done_Scenes/Done_Main.unity
+  isLoaded: 0
+  isActive: 0
