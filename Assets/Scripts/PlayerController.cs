@@ -7,8 +7,6 @@ public class PlayerController : MonoBehaviour
     public float speed;
     // Our rotate speed.
     public float rotationSpeed;
-    // Tilt the ship when it turns
-    public float tilt;
 
     public GameObject shot;
     public Transform shotSpawn;
@@ -40,12 +38,10 @@ public class PlayerController : MonoBehaviour
         float thrust = Input.GetAxisRaw("Vertical");
 
         // Apply turning as a rotation.
-        transform.Rotate(0, yaw * Time.deltaTime * rotationSpeed, rigidBody.velocity.y * -tilt);
+        transform.Rotate(0, yaw * Time.deltaTime * rotationSpeed, rigidBody.velocity.y);
 
         // Apply thrust as a force.
         Vector3 force = transform.TransformDirection(0, 0, thrust * speed);
         rigidBody.AddForce(force);
-
-        //rigidBody.rotation = Quaternion.Euler(0, 0, rigidBody.velocity.x * -tilt);
 	}
 }

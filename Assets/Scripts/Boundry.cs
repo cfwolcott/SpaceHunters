@@ -12,4 +12,9 @@ public class Boundry : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    void onCollisionEnter( Collision collision )
+    {
+        Debug.Log("Boundry onCollisionEnter");
+    }
 }
