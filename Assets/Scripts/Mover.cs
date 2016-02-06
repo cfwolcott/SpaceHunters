@@ -4,7 +4,7 @@ using System.Collections;
 public class Mover : MonoBehaviour 
 {
     public float speed;
-    public float lifeTime;
+    //public float lifeTime;
 
     private Rigidbody rigidBody;
 
@@ -12,15 +12,15 @@ public class Mover : MonoBehaviour
     {
         GetComponent<Rigidbody>().velocity = transform.forward * speed;
 
-        // Destroy the projectile in "life" seconds.
-        Invoke("Hit", lifeTime);
+        //// Destroy the projectile in "life" seconds.
+        //Invoke("Hit", lifeTime);
     }
 
     /**
     * The method called when the DynamicObject component registers a collsion.
     */
-    public void Hit()
-    {
-        Destroy(gameObject);
-    }
+    //public void Hit()
+    //{
+    //    Destroy(gameObject);
+    //}
 }

@@ -8,6 +8,8 @@ public class OnContactAsteroid : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        Debug.Log("OnContactAsteroid OnTriggerEnter");
+
         // If its a "bolt" that hit us
         if (other.tag == "Bolt")
         {
