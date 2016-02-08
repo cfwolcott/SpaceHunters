@@ -10,18 +10,22 @@ public class PlayerController : MonoBehaviour
 
     public GameObject shot;
     public GameObject engines;
+    public GameObject smokeTrail;
     public Transform shotSpawn;
     public float fireRate;
     private float nextFire;
 
     private Rigidbody rigidBody;
     private float speedModifier;
+    // The ships smoke trail particle emitter
+    private ParticleSystem pe;
 
-	// Use this for initialization
-	void Start () 
+    // Use this for initialization
+    void Start () 
     {
         rigidBody = GetComponent<Rigidbody>();
-	}
+        pe = smokeTrail.GetComponent<ParticleSystem>();
+    }
 
     void Update()
     {
@@ -44,11 +48,20 @@ public class PlayerController : MonoBehaviour
         if (thrust > 0)
         {
             engines.SetActive(true);
+            //smokeTrail.SetActive(true);
+            pe.maxParticles = 50;
             speedModifier = 1.0f;
         }
         else
         {
             engines.SetActive(false);
+
+            //smokeTrail.SetActive(false);
+            if (pe.maxParticles > 0)
+            {
+                pe.maxParticles -= 1;
+            }
+
             speedModifier = 0.25f;
         }
 
