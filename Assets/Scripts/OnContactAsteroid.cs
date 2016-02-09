@@ -6,12 +6,13 @@ public class OnContactAsteroid : MonoBehaviour
     public float hitsToDestroy;
     public GameObject explosion;
 
+    //-------------------------------------------------------------------------
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("OnContactAsteroid OnTriggerEnter");
+        //Debug.Log("OnContactAsteroid OnTriggerEnter");
 
         // If its a "bolt" that hit us
-        if (other.tag == "Bolt")
+        if (other.tag == "Bolt" || other.tag == "BoltEnemy")
         {
             Destroy(other.gameObject);  // Destroy only bolts that hit us
             

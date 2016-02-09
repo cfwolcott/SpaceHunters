@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     // The ships smoke trail particle emitter
     private ParticleSystem pe;
 
+    //-------------------------------------------------------------------------
     // Use this for initialization
     void Start () 
     {
@@ -27,6 +28,7 @@ public class PlayerController : MonoBehaviour
         pe = smokeTrail.GetComponent<ParticleSystem>();
     }
 
+    //-------------------------------------------------------------------------
     void Update()
     {
         if (Input.GetButton("Fire1") && Time.time > nextFire)
@@ -37,7 +39,8 @@ public class PlayerController : MonoBehaviour
             GetComponent<AudioSource>().Play();
         }
     }
-	
+
+    //-------------------------------------------------------------------------
 	void FixedUpdate () 
     {
         float yaw = Input.GetAxisRaw("Horizontal");
@@ -48,7 +51,7 @@ public class PlayerController : MonoBehaviour
         if (thrust > 0)
         {
             engines.SetActive(true);
-            //smokeTrail.SetActive(true);
+
             pe.maxParticles = 50;
             speedModifier = 1.0f;
         }
@@ -56,7 +59,6 @@ public class PlayerController : MonoBehaviour
         {
             engines.SetActive(false);
 
-            //smokeTrail.SetActive(false);
             if (pe.maxParticles > 0)
             {
                 pe.maxParticles -= 1;

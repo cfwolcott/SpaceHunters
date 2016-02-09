@@ -11,15 +11,25 @@ public class GameSettings
 public class GameController : MonoBehaviour 
 {
     public GameSettings gameSettings;
+
+    // *** Game Objects ***
+    // Asteroids
     public GameObject[] asteroidObjects;
     public int asteroidCount = 10;
 
-	// Use this for initialization
+    // Enemey
+    public GameObject[] enemyObjects;
+    public int enemeyCount = 5;
+
+    //-------------------------------------------------------------------------
+    // Use this for initialization
 	void Start () 
     {
         SpawnAsteroids();
+        SpawnEnemey();
 	}
-	
+
+    //-------------------------------------------------------------------------
 	// Update is called once per frame
 	void Update () 
     {
@@ -34,6 +44,27 @@ public class GameController : MonoBehaviour
         }
 	}
 
+    //-------------------------------------------------------------------------
+    void SpawnEnemey()
+    {
+        for (int i = 0; i < enemeyCount; i++)
+		{
+            // Randomly pick one of the 3 different asteroid objects we have to choose from
+            GameObject enemeyObject = enemyObjects[Random.Range(0, enemyObjects.Length)];
+
+            // Randomly place it in to our play field
+            float maxX = gameSettings.PlayFieldSize_maxX - 10;
+            float maxZ = gameSettings.PlayFieldSize_maxZ - 10;
+            Vector3 spawnPosition = new Vector3(Random.Range(-maxX, maxX), 0, Random.Range(-maxZ, maxZ));
+			
+            Quaternion spawnRotation = Quaternion.identity;
+
+            // Create the asteroid object
+            Instantiate(enemeyObject, spawnPosition, spawnRotation);
+		}
+    }
+
+    //-------------------------------------------------------------------------
     void SpawnAsteroids()
     {
         for (int i = 0; i < asteroidCount; i++)
