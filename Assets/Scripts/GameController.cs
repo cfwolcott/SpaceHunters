@@ -30,17 +30,29 @@ public class GameController : MonoBehaviour
 	}
 
     //-------------------------------------------------------------------------
+    public void ResetGame()
+    {
+        Application.LoadLevel(Application.loadedLevel);
+    }
+
+    //-------------------------------------------------------------------------
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    //-------------------------------------------------------------------------
 	// Update is called once per frame
 	void Update () 
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            Application.LoadLevel(Application.loadedLevel);
+            ResetGame();
         }
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            Application.Quit();
+            QuitGame();
         }
 	}
 

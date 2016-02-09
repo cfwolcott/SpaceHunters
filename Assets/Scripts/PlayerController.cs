@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour 
@@ -8,17 +9,28 @@ public class PlayerController : MonoBehaviour
     // Our rotate speed.
     public float rotationSpeed;
 
+    // Weapons
+    public string ourWeaponTag;
     public GameObject shot;
-    public GameObject engines;
-    public GameObject smokeTrail;
     public Transform shotSpawn;
     public float fireRate;
     private float nextFire;
+    
+    // Engines
+    public GameObject engines;
+    public GameObject smokeTrail;
+    // The ships smoke trail particle emitter
+    private ParticleSystem pe;
+
+    // Ship life parameters
+    public GameObject explosion;
+    public float hitsToDestroy;
+
+    // UI Elements
+    public Slider healthBarSlider;
 
     private Rigidbody rigidBody;
     private float speedModifier;
-    // The ships smoke trail particle emitter
-    private ParticleSystem pe;
 
     //-------------------------------------------------------------------------
     // Use this for initialization
@@ -26,6 +38,7 @@ public class PlayerController : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody>();
         pe = smokeTrail.GetComponent<ParticleSystem>();
+        healthBarSlider.value = hitsToDestroy;
     }
 
     //-------------------------------------------------------------------------
@@ -38,6 +51,9 @@ public class PlayerController : MonoBehaviour
             Instantiate(shot, shotSpawn.position, shotSpawn.rotation); // as GameObject;
             GetComponent<AudioSource>().Play();
         }
+
+        // Update health bar
+        healthBarSlider.value = Mathf.MoveTowards(healthBarSlider.value, 100.0f, 0.01f);
     }
 
     //-------------------------------------------------------------------------
@@ -46,8 +62,7 @@ public class PlayerController : MonoBehaviour
         float yaw = Input.GetAxisRaw("Horizontal");
         float thrust = Input.GetAxisRaw("Vertical");
 
-        // Show engine thrust only when thrusting forward
-        //Debug.Log("thrust: " + thrust);
+        // Engine Thrust
         if (thrust > 0)
         {
             engines.SetActive(true);
@@ -74,4 +89,33 @@ public class PlayerController : MonoBehaviour
         Vector3 force = transform.TransformDirection(0, 0, thrust * speed * speedModifier);
         rigidBody.AddForce(force);
 	}
+
+    //-------------------------------------------------------------------------
+    // This function does the same as the "DestroyByContact" but is less generic. It is needed here
+    // so the health bar can be updated
+    void OnTriggerEnter(Collider other)
+    {
+        //if (other.tag == "Bolt")
+        //    Debug.Log("OnTriggerEnter: Bolt");
+        //if (other.tag == "BoltEnemy")
+        //    Debug.Log("OnTriggerEnter: BoltEnemy");
+
+        if ((other.tag == "Bolt" || other.tag == "BoltEnemy") && other.tag != ourWeaponTag)
+        {
+            Destroy(other.gameObject);
+            hitsToDestroy--;
+
+            healthBarSlider.value = hitsToDestroy;
+
+            if (hitsToDestroy == 0)
+            {
+                if (explosion != null)
+                {
+                    Instantiate(explosion, transform.position, transform.rotation);
+                }
+
+                Destroy(gameObject);
+            }
+        }
+    }
 }
