@@ -26,6 +26,10 @@ public class PlayerController : MonoBehaviour
     public GameObject explosion;
     public float hitsToDestroy;
 
+    // Pickups
+    public int maxCrystalLoadCount;
+    private int crystalLoadCount = 0;
+
     // UI Elements
     public Slider healthBarSlider;
 
@@ -115,6 +119,19 @@ public class PlayerController : MonoBehaviour
                 }
 
                 Destroy(gameObject);
+            }
+        }
+    }
+
+    //-------------------------------------------------------------------------
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Crystal")
+        {
+            if (crystalLoadCount < maxCrystalLoadCount)
+            {
+                crystalLoadCount++;
+                Destroy(collision.gameObject);
             }
         }
     }
