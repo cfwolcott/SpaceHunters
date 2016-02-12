@@ -4,7 +4,9 @@ using System.Collections;
 public class OnContactAsteroid : MonoBehaviour 
 {
     public float hitsToDestroy;
-    public GameObject explosion;
+    public GameObject explosionObject;
+    public GameObject crystalObject;
+    public int maxCrystals;
 
     //-------------------------------------------------------------------------
     void OnTriggerEnter(Collider other)
@@ -30,9 +32,9 @@ public class OnContactAsteroid : MonoBehaviour
             Destroy(gameObject);
 
             // Show the explosion animation
-            if (explosion != null)
+            if (explosionObject != null)
             {
-                Instantiate(explosion, transform.position, transform.rotation);
+                Instantiate(explosionObject, transform.position, transform.rotation);
             }
         }
         else
@@ -40,6 +42,17 @@ public class OnContactAsteroid : MonoBehaviour
             // TODO: play a sound for hitting the asteroid
 
             // TODO: show some animation for hitting the asteroid
+
+            // Eject a crystal
+            EjectCrystal();
+        }
+    }
+
+    void EjectCrystal()
+    {
+        if (maxCrystals > 0 && crystalObject != null)
+        {
+            Instantiate(crystalObject, transform.position, transform.rotation);
         }
     }
 }

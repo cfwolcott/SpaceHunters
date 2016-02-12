@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
 
     // UI Elements
     public Slider healthBarSlider;
+    public Slider crystalLoadSlider;
 
     private Rigidbody rigidBody;
     private float speedModifier;
@@ -42,22 +43,34 @@ public class PlayerController : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody>();
         pe = smokeTrail.GetComponent<ParticleSystem>();
+
+        healthBarSlider.maxValue = hitsToDestroy;
         healthBarSlider.value = hitsToDestroy;
+
+        crystalLoadSlider.value = 0;
+        crystalLoadSlider.maxValue = maxCrystalLoadCount;
     }
 
     //-------------------------------------------------------------------------
     void Update()
     {
+        // Shoot a bolt
         if (Input.GetButton("Fire1") && Time.time > nextFire)
         {
             nextFire = Time.time + fireRate;
-            //GameObject clone = 
-            Instantiate(shot, shotSpawn.position, shotSpawn.rotation); // as GameObject;
+            Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
             GetComponent<AudioSource>().Play();
+        }
+
+        // Shoot out the mining laser
+        if (Input.GetButton("Fire2"))
+        {
+            Debug.Log("Fire2");
         }
 
         // Update health bar
         healthBarSlider.value = Mathf.MoveTowards(healthBarSlider.value, 100.0f, 0.01f);
+        crystalLoadSlider.value = Mathf.MoveTowards(crystalLoadSlider.value, 100.0f, 0.01f);
     }
 
     //-------------------------------------------------------------------------
@@ -131,7 +144,9 @@ public class PlayerController : MonoBehaviour
             if (crystalLoadCount < maxCrystalLoadCount)
             {
                 crystalLoadCount++;
+                crystalLoadSlider.value++;
                 Destroy(collision.gameObject);
+                //crystalPickupSound.Play();
             }
         }
     }
