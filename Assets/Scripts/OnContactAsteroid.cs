@@ -44,15 +44,16 @@ public class OnContactAsteroid : MonoBehaviour
             // TODO: show some animation for hitting the asteroid
 
             // Eject a crystal
-            EjectCrystal();
+            EjectCrystal(other.transform);
         }
     }
 
-    void EjectCrystal()
+    //-------------------------------------------------------------------------
+    void EjectCrystal(Transform spawnTransform )
     {
         if (maxCrystals > 0 && crystalObject != null)
         {
-            Instantiate(crystalObject, transform.position, transform.rotation);
+            Instantiate(crystalObject, spawnTransform.position, spawnTransform.rotation);
         }
     }
 }

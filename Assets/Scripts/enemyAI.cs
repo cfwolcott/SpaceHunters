@@ -60,7 +60,8 @@ public class enemyAI : MonoBehaviour
         {
             nextFire = Time.time + fireRate;
             Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
-            GetComponent<AudioSource>().Play();
+            //GetComponent<AudioSource>().Play();
+            AudioSource.PlayClipAtPoint(GetComponent<AudioSource>().clip, shotSpawn.position);
         }
     }
 }

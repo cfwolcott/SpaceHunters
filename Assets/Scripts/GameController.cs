@@ -16,6 +16,7 @@ public class GameController : MonoBehaviour
     // Asteroids
     public GameObject[] asteroidObjects;
     public int asteroidCount = 10;
+    //private AudioSource audioMusic;
 
     // Enemey
     public GameObject[] enemyObjects;
@@ -27,6 +28,10 @@ public class GameController : MonoBehaviour
     {
         SpawnAsteroids();
         SpawnEnemey();
+
+        //audioMusic = GetComponent<AudioSource>();
+        //audioMusic.loop = true;
+        //AudioSource.PlayClipAtPoint(audioMusic.clip, transform.position);
 	}
 
     //-------------------------------------------------------------------------

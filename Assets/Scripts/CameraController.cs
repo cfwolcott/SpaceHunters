@@ -20,6 +20,9 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        // Center the camera on top of the player object
+        transform.position = player.transform.position;
+
         cameraDistance -= Input.GetAxis("Mouse ScrollWheel") * zoomScrollSpeed;
         cameraDistance = Mathf.Clamp(cameraDistance, cameraDistanceMin, cameraDistanceMax);
 

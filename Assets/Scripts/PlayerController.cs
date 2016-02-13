@@ -26,9 +26,11 @@ public class PlayerController : MonoBehaviour
     public GameObject explosion;
     public float hitsToDestroy;
 
-    // Pickups
-    public int maxCrystalLoadCount;
-    private int crystalLoadCount = 0;
+    // Cargo Pickups
+    public int maxCargoLoadCount;
+    private int cargoLoadCount = 0;
+    public GameObject cargoObject;
+    public Transform cargoDumpSpawn;
 
     // UI Elements
     public Slider healthBarSlider;
@@ -36,6 +38,10 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rigidBody;
     private float speedModifier;
+
+    // Sound clips
+    private AudioSource audioWeapon;
+    private AudioSource audioCrystalPickup;
 
     //-------------------------------------------------------------------------
     // Use this for initialization
@@ -48,7 +54,14 @@ public class PlayerController : MonoBehaviour
         healthBarSlider.value = hitsToDestroy;
 
         crystalLoadSlider.value = 0;
-        crystalLoadSlider.maxValue = maxCrystalLoadCount;
+        crystalLoadSlider.maxValue = maxCargoLoadCount;
+
+        // Assign audio sources
+        AudioSource[] audioClips = GetComponents<AudioSource>();
+
+        // Load clips. These are in order that they appear in the inspector
+        audioWeapon = audioClips[0];
+        audioCrystalPickup = audioClips[1];
     }
 
     //-------------------------------------------------------------------------
@@ -59,13 +72,21 @@ public class PlayerController : MonoBehaviour
         {
             nextFire = Time.time + fireRate;
             Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
-            GetComponent<AudioSource>().Play();
+            //GetComponent<AudioSource>().Play();
+            audioWeapon.Play();
         }
 
         // Shoot out the mining laser
         if (Input.GetButton("Fire2"))
         {
             Debug.Log("Fire2");
+        }
+
+        // Defined ship key controls
+        // C - Cargo, dump crystals that are in the cargo hold
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            DumpCrystal(cargoDumpSpawn);
         }
 
         // Update health bar
@@ -95,7 +116,7 @@ public class PlayerController : MonoBehaviour
             {
                 pe.maxParticles -= 1;
             }
-
+            // Go slower in reverse
             speedModifier = 0.25f;
         }
 
@@ -141,13 +162,24 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Crystal")
         {
-            if (crystalLoadCount < maxCrystalLoadCount)
+            if (cargoLoadCount < maxCargoLoadCount)
             {
-                crystalLoadCount++;
+                cargoLoadCount++;
                 crystalLoadSlider.value++;
                 Destroy(collision.gameObject);
-                //crystalPickupSound.Play();
+                audioCrystalPickup.Play();
             }
+        }
+    }
+
+    //-------------------------------------------------------------------------
+    void DumpCrystal(Transform spawnTransform)
+    {
+        if (cargoLoadCount > 0 && cargoObject != null)
+        {
+            cargoLoadCount--;
+            crystalLoadSlider.value--;
+            Instantiate(cargoObject, spawnTransform.position, spawnTransform.rotation);
         }
     }
 }
