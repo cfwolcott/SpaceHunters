@@ -27,10 +27,6 @@ public class DestroyByTime : MonoBehaviour
             AudioSource.PlayClipAtPoint(audioDestroySound.clip, gameObject.transform.position);
             yield return new WaitForSeconds(audioDestroySound.clip.length - 0.3f);
         }
-        else
-        {
-            Debug.Log("Audio was null!");
-        }
 
         Destroy(gameObject);
     }

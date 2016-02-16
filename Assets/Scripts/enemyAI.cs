@@ -27,29 +27,38 @@ public class enemyAI : MonoBehaviour
     //-------------------------------------------------------------------------
     void Start()
     {
-        GameObject go = GameObject.FindGameObjectWithTag("Player");
-        target = go.transform;
+        //GameObject go = GameObject.FindGameObjectWithTag("Player");
+        //target = go.transform;
+    }
+
+    //-------------------------------------------------------------------------
+    public void SetTarget(GameObject newTarget)
+    {
+        target = newTarget.transform;
     }
 
     //-------------------------------------------------------------------------
     void FixedUpdate()
     {
-        Debug.DrawLine(target.position, myTransform.position, Color.red);
-
-        // Detect and Follow logic
-        float distanceToTarget = Vector3.Distance(target.position, myTransform.position);
-
-        if (distanceToTarget > maxDistance && distanceToTarget < maxDetectRange)
+        if (target != null)
         {
-            // look at and Move towards target
-            myTransform.rotation = Quaternion.Slerp(myTransform.rotation, Quaternion.LookRotation(target.position - myTransform.position), rotationSpeed * Time.deltaTime);
-            myTransform.position += myTransform.forward * moveSpeed * Time.deltaTime;
-        }
+            Debug.DrawLine(target.position, myTransform.position, Color.red);
 
-        // Weapon fire logic
-        if (distanceToTarget <= maxWeaponRange)
-        {
-            FireWeapon();
+            // Detect and Follow logic
+            float distanceToTarget = Vector3.Distance(target.position, myTransform.position);
+
+            if (distanceToTarget > maxDistance && distanceToTarget < maxDetectRange)
+            {
+                // look at and Move towards target
+                myTransform.rotation = Quaternion.Slerp(myTransform.rotation, Quaternion.LookRotation(target.position - myTransform.position), rotationSpeed * Time.deltaTime);
+                myTransform.position += myTransform.forward * moveSpeed * Time.deltaTime;
+            }
+
+            // Weapon fire logic
+            if (distanceToTarget <= maxWeaponRange)
+            {
+                FireWeapon();
+            }
         }
     }
 

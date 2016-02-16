@@ -32,9 +32,9 @@ public class PlayerController : MonoBehaviour
     public GameObject cargoObject;
     public Transform cargoDumpSpawn;
 
-    // UI Elements
-    public Slider healthBarSlider;
-    public Slider crystalLoadSlider;
+    //// UI Elements
+    //public Slider healthBarSlider;
+    //public Slider crystalLoadSlider;
 
     private Rigidbody rigidBody;
     private float speedModifier;
@@ -43,18 +43,33 @@ public class PlayerController : MonoBehaviour
     private AudioSource audioWeapon;
     private AudioSource audioCrystalPickup;
 
+    // Main game controller
+    private GameController gameController;
+
+
     //-------------------------------------------------------------------------
     // Use this for initialization
     void Start () 
     {
+        GameObject gameControllerObject = GameObject.FindGameObjectWithTag("GameController");
+        if (gameControllerObject != null)
+        {
+            gameController = gameControllerObject.GetComponent<GameController>();
+        }
+
+        if (gameController == null)
+        {
+            Debug.Log("Cannot find 'GameController' script");
+        }
+
         rigidBody = GetComponent<Rigidbody>();
         pe = smokeTrail.GetComponent<ParticleSystem>();
 
-        healthBarSlider.maxValue = hitsToDestroy;
-        healthBarSlider.value = hitsToDestroy;
+        gameController.UI_SetSheildLevelMax(hitsToDestroy);
+        gameController.UI_SetSheildLevel(hitsToDestroy);
 
-        crystalLoadSlider.value = 0;
-        crystalLoadSlider.maxValue = maxCargoLoadCount;
+        gameController.UI_SetCargoLevelMax(maxCargoLoadCount);
+        gameController.UI_SetCargoLevel(0);
 
         // Assign audio sources
         AudioSource[] audioClips = GetComponents<AudioSource>();
@@ -90,8 +105,8 @@ public class PlayerController : MonoBehaviour
         }
 
         // Update health bar
-        healthBarSlider.value = Mathf.MoveTowards(healthBarSlider.value, 100.0f, 0.01f);
-        crystalLoadSlider.value = Mathf.MoveTowards(crystalLoadSlider.value, 100.0f, 0.01f);
+        //gameController.healthBarSlider.value = Mathf.MoveTowards(healthBarSlider.value, 100.0f, 0.01f);
+        //gameController.crystalLoadSlider.value = Mathf.MoveTowards(crystalLoadSlider.value, 100.0f, 0.01f);
     }
 
     //-------------------------------------------------------------------------
@@ -130,7 +145,7 @@ public class PlayerController : MonoBehaviour
 
     //-------------------------------------------------------------------------
     // This function does the same as the "DestroyByContact" but is less generic. It is needed here
-    // so the health bar can be updated
+    // so the health bar can be updated and player objects can be respawned
     void OnTriggerEnter(Collider other)
     {
         //if (other.tag == "Bolt")
@@ -143,7 +158,8 @@ public class PlayerController : MonoBehaviour
             Destroy(other.gameObject);
             hitsToDestroy--;
 
-            healthBarSlider.value = hitsToDestroy;
+            //gameController.healthBarSlider.value = hitsToDestroy;
+            gameController.UI_SetSheildLevel(hitsToDestroy);
 
             if (hitsToDestroy == 0)
             {
@@ -153,6 +169,8 @@ public class PlayerController : MonoBehaviour
                 }
 
                 Destroy(gameObject);
+
+                gameController.PlayerDead();
             }
         }
     }
@@ -165,7 +183,8 @@ public class PlayerController : MonoBehaviour
             if (cargoLoadCount < maxCargoLoadCount)
             {
                 cargoLoadCount++;
-                crystalLoadSlider.value++;
+                //gameController.crystalLoadSlider.value++;
+                gameController.UI_SetCargoLevel(cargoLoadCount);
                 Destroy(collision.gameObject);
                 audioCrystalPickup.Play();
             }
@@ -178,7 +197,8 @@ public class PlayerController : MonoBehaviour
         if (cargoLoadCount > 0 && cargoObject != null)
         {
             cargoLoadCount--;
-            crystalLoadSlider.value--;
+            //gameController.crystalLoadSlider.value--;
+            gameController.UI_SetCargoLevel(cargoLoadCount);
             Instantiate(cargoObject, spawnTransform.position, spawnTransform.rotation);
         }
     }
