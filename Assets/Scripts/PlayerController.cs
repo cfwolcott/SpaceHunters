@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
     private AudioSource audioCrystalPickup;
 
     // Main game controller
-    private GameController gameController;
+    private GameController gGameController;
 
 
     //-------------------------------------------------------------------------
@@ -54,10 +54,10 @@ public class PlayerController : MonoBehaviour
         GameObject gameControllerObject = GameObject.FindGameObjectWithTag("GameController");
         if (gameControllerObject != null)
         {
-            gameController = gameControllerObject.GetComponent<GameController>();
+            gGameController = gameControllerObject.GetComponent<GameController>();
         }
 
-        if (gameController == null)
+        if (gGameController == null)
         {
             Debug.Log("Cannot find 'GameController' script");
         }
@@ -65,11 +65,11 @@ public class PlayerController : MonoBehaviour
         rigidBody = GetComponent<Rigidbody>();
         pe = smokeTrail.GetComponent<ParticleSystem>();
 
-        gameController.UI_SetSheildLevelMax(hitsToDestroy);
-        gameController.UI_SetSheildLevel(hitsToDestroy);
+        gGameController.UI_SetSheildLevelMax(hitsToDestroy);
+        gGameController.UI_SetSheildLevel(hitsToDestroy);
 
-        gameController.UI_SetCargoLevelMax(maxCargoLoadCount);
-        gameController.UI_SetCargoLevel(0);
+        gGameController.UI_SetCargoLevelMax(maxCargoLoadCount);
+        gGameController.UI_SetCargoLevel(0);
 
         // Assign audio sources
         AudioSource[] audioClips = GetComponents<AudioSource>();
@@ -159,7 +159,7 @@ public class PlayerController : MonoBehaviour
             hitsToDestroy--;
 
             //gameController.healthBarSlider.value = hitsToDestroy;
-            gameController.UI_SetSheildLevel(hitsToDestroy);
+            gGameController.UI_SetSheildLevel(hitsToDestroy);
 
             if (hitsToDestroy == 0)
             {
@@ -170,7 +170,7 @@ public class PlayerController : MonoBehaviour
 
                 Destroy(gameObject);
 
-                gameController.PlayerDead();
+                gGameController.PlayerDead();
             }
         }
     }
@@ -184,7 +184,7 @@ public class PlayerController : MonoBehaviour
             {
                 cargoLoadCount++;
                 //gameController.crystalLoadSlider.value++;
-                gameController.UI_SetCargoLevel(cargoLoadCount);
+                gGameController.UI_SetCargoLevel(cargoLoadCount);
                 Destroy(collision.gameObject);
                 audioCrystalPickup.Play();
             }
@@ -198,8 +198,10 @@ public class PlayerController : MonoBehaviour
         {
             cargoLoadCount--;
             //gameController.crystalLoadSlider.value--;
-            gameController.UI_SetCargoLevel(cargoLoadCount);
-            Instantiate(cargoObject, spawnTransform.position, spawnTransform.rotation);
+            gGameController.UI_SetCargoLevel(cargoLoadCount);
+            GameObject xtal = (GameObject)Instantiate(cargoObject, spawnTransform.position, spawnTransform.rotation);
+            xtal.GetComponent<Rigidbody>().velocity = transform.forward * -2.0f;
+
         }
     }
 }
