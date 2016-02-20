@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
     <ProjectGuid>{E3CEEABB-ECBD-93A7-05E4-3FA17EE3ECB4}</ProjectGuid>
@@ -56,6 +56,7 @@
      <Compile Include="Assets\Scripts\OnContactAsteroid.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\RandomRotator.cs" />
+     <Compile Include="Assets\Scripts\SensorDetector.cs" />
      <Compile Include="Assets\Scripts\enemyAI.cs" />
      <Compile Include="Assets\_SpaceShooterAssets\Done\Done_Scripts\Done_BGScroller.cs" />
      <Compile Include="Assets\_SpaceShooterAssets\Done\Done_Scripts\Done_DestroyByBoundary.cs" />

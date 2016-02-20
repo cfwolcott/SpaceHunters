@@ -6,7 +6,6 @@ public class enemyAI : MonoBehaviour
     public Transform target; 
     public float moveSpeed;
     public float rotationSpeed;
-    public float maxDistance = 5;
     public float maxDetectRange = 20;
     public float maxWeaponRange = 15;
 
@@ -15,6 +14,11 @@ public class enemyAI : MonoBehaviour
     public Transform shotSpawn;
     public float fireRate;
     private float nextFire;
+	public string ourWeaponTag;     // so our own shots don't destory us
+
+	public GameObject explosion;
+	public float hitsToDestroy;
+
 
     private Transform myTransform;
 
@@ -27,8 +31,7 @@ public class enemyAI : MonoBehaviour
     //-------------------------------------------------------------------------
     void Start()
     {
-        //GameObject go = GameObject.FindGameObjectWithTag("Player");
-        //target = go.transform;
+		
     }
 
     //-------------------------------------------------------------------------
@@ -47,12 +50,17 @@ public class enemyAI : MonoBehaviour
             // Detect and Follow logic
             float distanceToTarget = Vector3.Distance(target.position, myTransform.position);
 
-            if (distanceToTarget > maxDistance && distanceToTarget < maxDetectRange)
-            {
-                // look at and Move towards target
-                myTransform.rotation = Quaternion.Slerp(myTransform.rotation, Quaternion.LookRotation(target.position - myTransform.position), rotationSpeed * Time.deltaTime);
-                myTransform.position += myTransform.forward * moveSpeed * Time.deltaTime;
-            }
+			if (distanceToTarget < maxDetectRange && distanceToTarget > 4) 
+			{
+				// look at and Move towards target
+				myTransform.rotation = Quaternion.Slerp (myTransform.rotation, Quaternion.LookRotation (target.position - myTransform.position), rotationSpeed * Time.deltaTime);
+				myTransform.position += myTransform.forward * moveSpeed * Time.deltaTime;
+			}
+			else 
+			{
+				// Wander around looking for player to kill
+				myTransform.position += myTransform.forward * (moveSpeed / 2.0f) * Time.deltaTime;
+			}
 
             // Weapon fire logic
             if (distanceToTarget <= maxWeaponRange)
@@ -73,4 +81,26 @@ public class enemyAI : MonoBehaviour
             AudioSource.PlayClipAtPoint(GetComponent<AudioSource>().clip, shotSpawn.position);
         }
     }
+
+	//-------------------------------------------------------------------------
+	void OnTriggerEnter(Collider other)
+	{
+		//Debug.Log("AI: OnTriggerEnter called on tag: " + other.tag);
+
+		if (other.tag == "Bolt" && other.tag != ourWeaponTag)
+		{
+			Destroy(other.gameObject);
+			hitsToDestroy--;
+
+			if (hitsToDestroy == 0)
+			{
+				if (explosion != null)
+				{
+					Instantiate(explosion, transform.position, transform.rotation);
+				}
+
+				Destroy(gameObject);
+			}
+		}
+	}
 }

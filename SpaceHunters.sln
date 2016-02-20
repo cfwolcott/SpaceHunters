@@ -1,4 +1,4 @@
-Microsoft Visual Studio Solution File, Format Version 10.00
+Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2008
 
 Project("{8B4500EB-BA1B-D5C0-483F-F4F754952609}") = "SpaceHunters", "Assembly-CSharp.csproj", "{E3CEEABB-ECBD-93A7-05E4-3FA17EE3ECB4}"

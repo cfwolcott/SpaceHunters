@@ -10,11 +10,6 @@ public class DestroyByContact : MonoBehaviour
     //-------------------------------------------------------------------------
     void OnTriggerEnter(Collider other)
     {
-        //if (other.tag == "Bolt" )
-        //    Debug.Log("OnTriggerEnter: Bolt");
-        //if (other.tag == "BoltEnemy")
-        //    Debug.Log("OnTriggerEnter: BoltEnemy");
-
         if ((other.tag == "Bolt" || other.tag == "BoltEnemy") && other.tag != ourWeaponTag)
         {
             Destroy(other.gameObject);

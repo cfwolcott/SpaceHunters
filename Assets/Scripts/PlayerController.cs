@@ -103,10 +103,6 @@ public class PlayerController : MonoBehaviour
         {
             DumpCrystal(cargoDumpSpawn);
         }
-
-        // Update health bar
-        //gameController.healthBarSlider.value = Mathf.MoveTowards(healthBarSlider.value, 100.0f, 0.01f);
-        //gameController.crystalLoadSlider.value = Mathf.MoveTowards(crystalLoadSlider.value, 100.0f, 0.01f);
     }
 
     //-------------------------------------------------------------------------
@@ -183,7 +179,6 @@ public class PlayerController : MonoBehaviour
             if (cargoLoadCount < maxCargoLoadCount)
             {
                 cargoLoadCount++;
-                //gameController.crystalLoadSlider.value++;
                 gGameController.UI_SetCargoLevel(cargoLoadCount);
                 Destroy(collision.gameObject);
                 audioCrystalPickup.Play();
@@ -197,7 +192,6 @@ public class PlayerController : MonoBehaviour
         if (cargoLoadCount > 0 && cargoObject != null)
         {
             cargoLoadCount--;
-            //gameController.crystalLoadSlider.value--;
             gGameController.UI_SetCargoLevel(cargoLoadCount);
             GameObject xtal = (GameObject)Instantiate(cargoObject, spawnTransform.position, spawnTransform.rotation);
             xtal.GetComponent<Rigidbody>().velocity = transform.forward * -2.0f;

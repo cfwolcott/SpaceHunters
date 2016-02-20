@@ -35,7 +35,6 @@ public class GameController : MonoBehaviour
     // Asteroids
     public GameObject[] gAsteroidObjects;   // holds the different kinds of asteroid model objects (dragged in from the GUI). Not how many will actually be spawned
     public int gAsteroidCount = 10;
-    //private AudioSource audioMusic;
 
     // Enemey
     public GameObject[] gEnemyObjects;  // holds the different kinds of enemy model objects. Not how many will actually be spawned
@@ -63,7 +62,7 @@ public class GameController : MonoBehaviour
         // Setup the player and other game objects
         SpawnPlayer();
         SpawnAsteroids();
-        SpawnEnemey(gPlayerObjectInstance);
+        SpawnEnemey();
 
         //audioMusic = GetComponent<AudioSource>();
         //audioMusic.loop = true;
@@ -160,10 +159,8 @@ public class GameController : MonoBehaviour
     }
    
     //-------------------------------------------------------------------------
-    void SpawnEnemey( GameObject target )
+    void SpawnEnemey()
     {
-        enemyAI enemyAi;
-
         for (int i = 0; i < gEnemeyCount; i++)
 		{
             // Randomly pick one of the 3 different asteroid objects we have to choose from
@@ -178,9 +175,8 @@ public class GameController : MonoBehaviour
             Quaternion spawnRotation = Quaternion.identity;
 
             // Create the enemy object
-            GameObject enemyInstance = (GameObject)Instantiate(enemeyObjectToSpawn, spawnPosition, spawnRotation);
-            enemyAi = enemyInstance.GetComponent<enemyAI>();
-            enemyAi.SetTarget(target);
+            //GameObject enemyInstance = (GameObject)Instantiate(enemeyObjectToSpawn, spawnPosition, spawnRotation);
+			Instantiate(enemeyObjectToSpawn, spawnPosition, spawnRotation);
 		}
     }
 
